@@ -11,6 +11,15 @@ def missing?(column)
 	end
 end
 
+def badprice(column)
+	if column.to_i == nil || column.to_i >= 1000
+		true
+	else
+		false
+	end
+end
+
+
 
 class CocEtl
 	# Hash for mapping tgs departments to shopify types
@@ -323,6 +332,7 @@ class CocEtl
 	def initial_error_checks
 		duplicate_item_numbers = 0
 		undefined_categories = 0
+		suspicious_price = 0
 		item_numbers = {}
 		@input_rows.each_with_index do |row, i|
 			item_number = row[0]
@@ -340,10 +350,14 @@ class CocEtl
 				undefined_categories+=1
 			end	
 			# check for suspicious pricing
-			 
+			if badprice(row[16])
+				puts "Found a suspicious price in row #{i}"
+			 suspicious_price+=1
+			end
 		end
-		puts "#{duplicate_item_numbers} duplicate item_numbers were found"
-		puts "#{undefined_categories} undefined categories were found"
+		puts "#{duplicate_item_numbers} DUPLICATE ITEM NUMBERS WERE FOUND"
+		puts "#{undefined_categories} UNDEFINED CATEGORIES WERE FOUND"
+		puts "#{suspicious_price} ITEMS WITH SUSPICIOUS PRICING WERE FOUND"
 	end
 
 
@@ -371,6 +385,7 @@ class CocEtl
 			build_variant_sku(i, row, row_shopify)
 			build_vendor(i, row, row_shopify)
 			row_shopify[1] = row[1]
+			row_shopify[19] = row[16]
 			row_shopify[6] = 'TRUE'
 			row_shopify[15] = 'shopify'
 			row_shopify[17] = 'deny'
