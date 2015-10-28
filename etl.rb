@@ -77,6 +77,7 @@ class CocEtl
 		end
 		output_row[4] = type
 	end
+
 	def build_handle(row_number, input_row, output_row)
 		handle = input_row[1]
 		if missing?(handle)
@@ -95,6 +96,9 @@ class CocEtl
 		handle = handle.downcase.gsub(" ","-")
 		handle = handle.gsub(/[^-\w\d]|---/,"")
 		output_row[0] = handle
+	end
+
+	def build_variant_sku(row_number, input_row, output_row)
 	end
 
 
@@ -147,6 +151,13 @@ class CocEtl
 			build_type(i, row, row_shopify)
 			# Places transformed departments and categories into type
 			row_shopify[1] = row[1]
+			row_shopify[6] = 'TRUE'
+			row_shopify[15] = 'shopify'
+			row_shopify[17] = 'deny'
+			row_shopify[18] = 'manual'
+			row_shopify[21] = 'TRUE'
+			row_shopify[22] = 'FALSE'
+			row_shopify[26] = 'FALSE'
 			@output_rows << row_shopify
 
 		end
