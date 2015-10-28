@@ -16,28 +16,28 @@ class CocEtl
 	# Hash for mapping tgs departments to shopify types
 	DEPARTMENTS = {
 
-		"01" => "Clothing",
-		"02" => "Stationery",
-		"03" => "Gift Baskets",
-		"04" => "Charms",
-		"06" => "Gift Wrap",
-		"07" => "Custom Chapter Merchandise",
-		"09" => "make-a-wish",
+		"1" => "Clothing",
+		"2" => "Stationery",
+		"3" => "Gift Baskets",
+		"4" => "Charms",
+		"6" => "Gift Wrap",
+		"7" => "Custom Chapter Merchandise",
+		"9" => "make-a-wish",
 		"11" => "Herff Jones",
 		"12" => "Vintage Collection",
 	}
 
 	CATEGORIES = {
 
-		"01" => "Sweatshirts",
-		"02" => "Short Sleeves",
-		"03" => "Cardigans/Zip-Up Jackets",
-		"04" => "Shorts & Skirts",
-		"05" => "Pants",
-		"06" => "Totes",
-		"07" => "Aprons",
-		"08" => "Headwear",
-		"09" => "Long Sleeves",
+		"1" => "Sweatshirts",
+		"2" => "Short Sleeves",
+		"3" => "Cardigans/Zip-Up Jackets",
+		"4" => "Shorts & Skirts",
+		"5" => "Pants",
+		"6" => "Totes",
+		"7" => "Aprons",
+		"8" => "Headwear",
+		"9" => "Long Sleeves",
 		"10" => "Youth Clothing",
 		"12" => "Scarves/eyewear",
 		"14" => "Footwear",
@@ -61,6 +61,41 @@ class CocEtl
 		## puts "#{row_number} - #{input_row[0]}"
 	end
 
+	def build_type(row_number, input_row, output_row)
+		cat = input_row[6]
+		dep = input_row[5]
+		type = "unknown"
+		if missing?(cat)
+			# uses a category if no department
+			type = DEPARTMENTS[dep]
+		else
+			type = CATEGORIES[cat]
+		end
+		if type == nil
+			puts "row #{row_number} has a missing or invalid category"
+			return
+		end
+		output_row[4] = type
+	end
+	def build_handle(row_number, input_row, output_row)
+		handle = input_row[1]
+		if missing?(handle)
+			puts "row #{row_number} is missing an item description"
+			return
+		end
+		if  !missing?input_row[2]
+		 	handle += "-#{input_row[2]}"
+		end
+		if  !missing?input_row[3]
+			handle += "-#{input_row[3]}"
+		end
+		if  !missing?input_row[0]
+			handle += "-#{input_row[0]}"
+		end
+		handle = handle.downcase.gsub(" ","-")
+		handle = handle.gsub(/[^-\w\d]|---/,"")
+		output_row[0] = handle
+	end
 
 
 	def initial_error_checks
@@ -106,9 +141,14 @@ class CocEtl
 		@input_rows.each_with_index do |row, i|
 			row_shopify=[]
 			# Do transforms
+			build_handle(i, row, row_shopify)
             build_sku(i, row, row_shopify)
 			# Place transformed row into output
+			build_type(i, row, row_shopify)
+			# Places transformed departments and categories into type
+			row_shopify[1] = row[1]
 			@output_rows << row_shopify
+
 		end
 		# Write output_rows into our output csv file
 		CSV.open(@outfile, "wb") do |csv|
