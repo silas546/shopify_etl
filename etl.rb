@@ -13,6 +13,10 @@ end
 
 
 class CocEtl
+	DEPARTMENTS = {
+		"01" => "Clothing",
+		"02" => "Stationery",
+	}
 	# Init
 	def initialize
 		# Get input and output files from command line arguments
