@@ -93,7 +93,7 @@ class CocEtl
 		"24" => "Scotty Gear",
 		"240" => "Miller Ribbons",
 		"247" => "Random House, Inc.",
-		"250" => "Brown's Graduation Supplies"
+		"250" => "Brown's Graduation Supplies",
 		"252" => "Urban Bird Designs",
 		"26" => "Holiday Container",
 		"260" => "Ares",
@@ -125,7 +125,7 @@ class CocEtl
 		"308" => "Rubadub-dub",
 		"309" => "Vineyard Vines",
 		"310" => "Get Some Greek",
-		"312" => "Boxercraft, Inc."
+		"312" => "Boxercraft, Inc.",
 		"313" => "Safeguard",
 		"314" => "Shawn Paul Jewelry",
 		"318" => "Conrad Creative",
@@ -236,7 +236,7 @@ class CocEtl
 		"90" => "Chi Omega Fraternity",
 		"91" => "Chi Omega Foundation",
 		"92" => "Tennessee Dept Of Revenue",
-		
+
 	}
 
 	# Init
@@ -250,6 +250,17 @@ class CocEtl
 		# Input rows
 		@input_rows = []
 
+	end
+
+	def build_vendor(row_number, input_row, output_row)
+		vendor_number = input_row[8]
+		vendor = "unknown"
+		if !missing?(vendor_number)
+			vendor = VENDORS[vendor_number]
+		else
+			puts "row #{row_number} is missing a vendor"
+		end
+		output_row[3] = vendor
 	end
 
 	def build_sku(row_number, input_row, output_row)
@@ -358,6 +369,7 @@ class CocEtl
 			build_type(i, row, row_shopify)
 			# Places transformed departments and categories into type
 			build_variant_sku(i, row, row_shopify)
+			build_vendor(i, row, row_shopify)
 			row_shopify[1] = row[1]
 			row_shopify[6] = 'TRUE'
 			row_shopify[15] = 'shopify'
