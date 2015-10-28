@@ -13,9 +13,36 @@ end
 
 
 class CocEtl
+	# Hash for mapping tgs departments to shopify types
 	DEPARTMENTS = {
+
 		"01" => "Clothing",
 		"02" => "Stationery",
+		"03" => "Gift Baskets",
+		"04" => "Charms",
+		"06" => "Gift Wrap",
+		"07" => "Custom Chapter Merchandise",
+		"09" => "make-a-wish",
+		"11" => "Herff Jones",
+		"12" => "Vintage Collection",
+	}
+
+	CATEGORIES = {
+
+		"01" => "Sweatshirts",
+		"02" => "Short Sleeves",
+		"03" => "Cardigans/Zip-Up Jackets",
+		"04" => "Shorts & Skirts",
+		"05" => "Pants",
+		"06" => "Totes",
+		"07" => "Aprons",
+		"08" => "Headwear",
+		"09" => "Long Sleeves",
+		"10" => "Youth Clothing",
+		"12" => "Scarves/eyewear",
+		"14" => "Footwear",
+		"16" => "Mittens",
+		"17" => "Belts",
 	}
 	# Init
 	def initialize
