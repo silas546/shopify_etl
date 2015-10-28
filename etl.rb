@@ -99,7 +99,19 @@ class CocEtl
 	end
 
 	def build_variant_sku(row_number, input_row, output_row)
-	end
+		variant_sku = input_row[0]
+		if missing?(variant_sku)
+			puts "row #{row_number} is missing an item number"
+			return
+		end
+		if !missing?input_row[2]
+			variant_sku += "-#{input_row[2]}"
+		end
+		if !missing?input_row[3]
+			variant_sku += "-#{input_row[3]}"
+		end
+		output_row[13] = variant_sku
+	end 
 
 
 	def initial_error_checks
@@ -150,6 +162,7 @@ class CocEtl
 			# Place transformed row into output
 			build_type(i, row, row_shopify)
 			# Places transformed departments and categories into type
+			build_variant_sku(i, row, row_shopify)
 			row_shopify[1] = row[1]
 			row_shopify[6] = 'TRUE'
 			row_shopify[15] = 'shopify'
