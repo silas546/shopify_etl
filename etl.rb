@@ -345,8 +345,8 @@ class CocEtl
 			end
 			item_numbers[item_number] = true 
 			# check that every product has a category
-			if missing?(row[6])
-				puts "Found an undefined category in row #{i}"
+			if missing?(row[6,5])
+				puts "Found an undefined category AND undefined department in row #{i}"
 				undefined_categories+=1
 			end	
 			# check for suspicious pricing
@@ -356,7 +356,7 @@ class CocEtl
 			end
 		end
 		puts "#{duplicate_item_numbers} DUPLICATE ITEM NUMBERS WERE FOUND"
-		puts "#{undefined_categories} UNDEFINED CATEGORIES WERE FOUND"
+		puts "#{undefined_categories} UNDEFINED DEPARTMENTS/CATEGORIES WERE FOUND"
 		puts "#{suspicious_price} ITEMS WITH SUSPICIOUS PRICING WERE FOUND"
 	end
 
