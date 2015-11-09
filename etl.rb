@@ -277,18 +277,13 @@ class CocEtl
 	end
 
 	def build_type(row_number, input_row, output_row)
-		cat = input_row[6]
 		dep = input_row[5]
 		type = "unknown"
-		if missing?(cat)
-			# uses a category if no department
+		if !missing?(dep)
 			type = DEPARTMENTS[dep]
-		else
-			type = CATEGORIES[cat]
 		end
 		if type == nil
-			puts "row #{row_number} has a missing or invalid category"
-			return
+			type = "unknown"
 		end
 		output_row[4] = type
 	end
@@ -299,12 +294,12 @@ class CocEtl
 			puts "row #{row_number} is missing an item description"
 			return
 		end
-		if  !missing?input_row[2]
-		 	handle += "-#{input_row[2]}"
-		end
-		if  !missing?input_row[3]
-			handle += "-#{input_row[3]}"
-		end
+		#if  !missing?input_row[2]
+		 	#handle += "-#{input_row[2]}"
+		#end
+		#if  !missing?input_row[3]
+			#handle += "-#{input_row[3]}"
+		#end
 		if  !missing?input_row[0]
 			handle += "-#{input_row[0]}"
 		end
@@ -397,6 +392,8 @@ class CocEtl
 			row_shopify[21] = 'TRUE'
 			row_shopify[22] = 'FALSE'
 			row_shopify[26] = 'FALSE'
+			row_shopify[43] = row[22]
+
 			@output_rows << row_shopify
 
 		end
