@@ -288,6 +288,15 @@ class CocEtl
 		output_row[4] = type
 	end
 
+	def build_tags(row_number, input_row, output_row)
+		cat = input_row[6]
+		tags = nil
+		if !missing?(cat)
+			tags = CATEGORIES[cat]
+		end
+		output_row[5] = tags
+	end
+
 	def build_handle(row_number, input_row, output_row)
 		handle = input_row[1]
 		if missing?(handle)
@@ -376,6 +385,7 @@ class CocEtl
             build_sku(i, row, row_shopify)
 			# Place transformed row into output
 			build_type(i, row, row_shopify)
+			build_tags(i, row, row_shopify)
 			# Places transformed departments and categories into type
 			build_variant_sku(i, row, row_shopify)
 			build_vendor(i, row, row_shopify)
