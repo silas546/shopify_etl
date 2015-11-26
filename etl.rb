@@ -26,14 +26,14 @@ class CocEtl
 	DEPARTMENTS = {
 
 		"1" => "Clothing",
-		"2" => "Stationery",
-		"3" => "Gift Baskets",
-		"4" => "Charms",
+		"2" => "Stationary",
+		"3" => "Gifts",
+		"4" => "Jewelry",
 		"6" => "Gift Wrap",
 		"7" => "Custom Chapter Merchandise",
-		"9" => "make-a-wish",
-		"11" => "Herff Jones",
-		"12" => "Vintage Collection",
+		"9" => "Misc",
+		"11" => "Misc",
+		"12" => "Misc",
 	}
 	#Hash for mapping tgs categories to shopify types
 	CATEGORIES = {
