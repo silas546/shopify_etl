@@ -12,7 +12,7 @@ def missing?(column)
 end
 
 def badprice(column)
-	if column.to_i == nil || column.to_i >= 1000
+	if column.to_i == nil || column.to_i >= 10000
 		true
 	else
 		false
@@ -25,15 +25,15 @@ class CocEtl
 	# Hash for mapping tgs departments to shopify types
 	DEPARTMENTS = {
 
-		"1" => "Clothing",
-		"2" => "Stationary",
-		"3" => "Gifts",
-		"4" => "Jewelry",
-		"6" => "Gift Wrap",
-		"7" => "Custom Chapter Merchandise",
-		"9" => "Misc",
-		"11" => "Misc",
-		"12" => "Misc",
+		"1" => "01 Clothing",
+		"2" => "02 Stationary",
+		"3" => "03 Gifts",
+		"4" => "04 Jewelry",
+		"6" => "06 Gift Wrap",
+		"7" => "07 Customs",
+		"9" => "09 Make-a-Wish/Philanthropy",
+		"11" => "11 Herff Jones",
+		"12" => "12 Vintage Collection",
 	}
 	#Hash for mapping tgs categories to shopify types
 	CATEGORIES = {
