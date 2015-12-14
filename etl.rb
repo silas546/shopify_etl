@@ -392,10 +392,14 @@ class CocEtl
 			row_shopify[1] = row[1]
 			row_shopify[19] = row[16]
 			row_shopify[6] = 'TRUE'
-			row_shopify[7] = 'Size'
-			row_shopify[8] = row[2]
-			row_shopify[9] = 'Color'
-			row_shopify[10] = row[3]
+			unless missing?(row[2])
+			 row_shopify[7] = 'Size'
+			 row_shopify[8] = row[2]
+			end
+			unless missing?(row[3])
+			 row_shopify[9] = 'Color'
+			 row_shopify[10] = row[3]
+			end
 			row_shopify[15] = 'shopify'
 			row_shopify[17] = 'deny'
 			row_shopify[18] = 'manual'
